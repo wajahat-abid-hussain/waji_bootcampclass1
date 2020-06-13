@@ -1,0 +1,26 @@
+name: Boot camp 2020
+
+on:
+  push:
+    branches: [ master ]
+
+
+jobs:
+  build:
+
+    runs-on: windows-server
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Installing node
+      run: actions/setup-node@v2-beta
+      with:
+        node-version: 12  
+    - name: installing surge
+      run: npm install --global surge
+    - name: deploying using surge
+      run: surge ./ waji-bootcampclass1.surge.sh/ --token ${{ secrets.SURGE_TOKEN }}
+      
+        docker run \
+        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+        jekyll/builder:latest /bin/bash -c "chmod 777 /srv/jekyll && jekyll build --future"
